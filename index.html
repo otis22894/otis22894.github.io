@@ -20,7 +20,17 @@
                         window.location.replace("https://www.zola.com/wedding/emilyandryanwilliams");
                     });
                 } else {
-                    setTimeout(checkIfAnalyticsLoaded,500);
+                    setTimeout(lastChance,1000);
+                }
+            }
+            
+            function lastChance(){
+                if (typeof ga === 'function') {
+                    ga(function() {
+                        window.location.replace("https://www.zola.com/wedding/emilyandryanwilliams");
+                    });
+                } else {
+                    window.location.replace("https://www.zola.com/wedding/emilyandryanwilliams");
                 }
             }
 

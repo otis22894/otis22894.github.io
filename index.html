@@ -15,11 +15,12 @@
 
 
             function checkIfAnalyticsLoaded() {
-                if (window._gaq && window._gaq._getTracker) {
-                    window.location.replace("https://www.zola.com/wedding/emilyandryanwilliams");
+                if (typeof ga === 'function') {
+                    ga(function() {
+                        window.location.replace("https://www.zola.com/wedding/emilyandryanwilliams");
+                    });
                 } else {
-                    // Retry. Probably want to cap the total number of times you call this.
-                    setTimeout(checkIfAnalyticsLoaded, 500);
+                    setTimeout(checkIfAnalyticsLoaded,500);
                 }
             }
 

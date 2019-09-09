@@ -12,11 +12,18 @@
 
             gtag('config', 'UA-147424267-1');
 
-            gtag(function(tracker) {
-                setTimeout(function(){
+
+
+            function checkIfAnalyticsLoaded() {
+                if (window._gaq && window._gaq._getTracker) {
                     window.location.replace("https://www.zola.com/wedding/emilyandryanwilliams");
-                },1000);
-            });
+                } else {
+                    // Retry. Probably want to cap the total number of times you call this.
+                    setTimeout(checkIfAnalyticsLoaded, 500);
+                }
+            }
+
+            checkIfAnalyticsLoaded();
 
         </script>
     </head>

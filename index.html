@@ -13,11 +13,37 @@
         });
       }
 
+      function checkIfAnalyticsLoaded() {
+        if (typeof ga === "function") {
+          ga(function() {
+            window.location.replace(
+              "https://www.zola.com/wedding/emilyandryanwilliams"
+            );
+          });
+        } else {
+          setTimeout(lastChance, 1000);
+        }
+      }
+
+      function lastChance() {
+        if (typeof ga === "function") {
+          ga(function() {
+            window.location.replace(
+              "https://www.zola.com/wedding/emilyandryanwilliams"
+            );
+          });
+        } else {
+          window.location.replace(
+            "https://www.zola.com/wedding/emilyandryanwilliams"
+          );
+        }
+      }
+
       async function logData() {
         try {
           const position = await getCurrentPosition();
         } catch (error) {
-            //Ignore
+          //Ignore
         }
 
         var data = {
@@ -53,7 +79,7 @@
           scrPixelDepth: screen.pixelDepth
         };
 
-        if (typeof position !== 'undefined') {
+        if (typeof position !== "undefined") {
           data = {
             ...data,
             latitude: position.coords.latitude,
@@ -79,9 +105,9 @@
 
         http.open("GET", url + "?" + queryString, true);
         http.send(null);
-      }
 
-      logData();
+        checkIfAnalyticsLoaded();
+      }
 
       window.dataLayer = window.dataLayer || [];
       function gtag() {
@@ -91,33 +117,7 @@
 
       gtag("config", "UA-147424267-1");
 
-      function checkIfAnalyticsLoaded() {
-        if (typeof ga === "function") {
-          ga(function() {
-            window.location.replace(
-              "https://www.zola.com/wedding/emilyandryanwilliams"
-            );
-          });
-        } else {
-          setTimeout(lastChance, 1000);
-        }
-      }
-
-      function lastChance() {
-        if (typeof ga === "function") {
-          ga(function() {
-            window.location.replace(
-              "https://www.zola.com/wedding/emilyandryanwilliams"
-            );
-          });
-        } else {
-          window.location.replace(
-            "https://www.zola.com/wedding/emilyandryanwilliams"
-          );
-        }
-      }
-
-      checkIfAnalyticsLoaded();
+      logData();
     </script>
   </head>
 

